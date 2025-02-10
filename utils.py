@@ -150,6 +150,10 @@ def handle_click(
     
     #Get in-sity observations
     df_q = observations[observations['GAGEID'].astype('str')==str(gageid)]
+    df_q['date'] = pd.to_datetime(df_q['date'])
+    df_q['month'] = df_q['date'].dt.month
+    df_q['year'] = df_q['date'].dt.year
+    
     twsa = pd.merge(twsa,df_q,how='left', on = ['year','month'])
     # twsa = twsa.dropna(axis=0)
     
