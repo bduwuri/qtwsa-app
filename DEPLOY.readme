@@ -1,0 +1,70 @@
+
+## Instructions for deploying this app to GCP
+
+
+
+### Reference Websites
+
+- https://towardsdatascience.com/deploying-streamlit-apps-to-gcp-79ad5933013e
+
+
+### Instructions
+
+
+1. Build Dockerfile
+
+docker build -t cuahsi/streamlit-swot:0.1 .
+
+2. Test Locally
+
+    - Debugging 
+	
+	docker run -p 8080:8080 --rm -ti --entrypoint=/bin/sh cuahsi/streamlit-swot:0.1
+	
+	streamlit run app.py --server.port=8080 --server.address=0.0.0.0
+
+    - Running the App
+
+	docker run -p 8080:8080 --rm cuahsi/streamlit-swot:0.1
+
+
+
+3. Deploy to Google App Engine
+
+    - connect to the "apps" project
+
+	gcloud config get-value project
+
+	gcloud projects list
+
+	gcloud config set project apps-320517
+
+    - authenticate docker support
+
+	gcloud auth configure-docker 
+
+
+    - push Docker image to Google Container Registry (GCR)
+
+	docker tag 38c0305c68c7 gcr.io/apps-320517/swot-streamlit:0.1
+
+	docker push gcr.io/apps-320517/swot-streamlit:0.1
+
+    - Make sure the image exists in GCR
+
+        gcloud container images list --repository=gcr.io/apps-320517
+
+
+    - deploy to app engine
+	
+	gcloud app deploy --image-url gcr.io/apps-320517/swot-streamlit:0.1
+
+    - launch the app 
+	
+	https://PROJECT_ID.REGION_ID.r.appspot.com:
+
+	gcloud app browse
+
+4. Update existing App
+
+    - gcloud app update

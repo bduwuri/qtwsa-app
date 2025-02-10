@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    image: ${IMAGE_NAME:-qtwsa-app}:${IMAGE_TAG:-dev}
+    container_name: qtwsa-app
+    environment:
+      # for available environment variables see:
+      # - https://dash.plotly.com/reference#dash.dash
+      # - https://dash.plotly.com/reference#app.run_server
+      # short list for convenience:
+      # HOST: str
+      # PORT: int
+      # DASH_DEBUG: int (1, 0)
+      # DASH_ROUTES_PATHNAME_PREFIX - "A local URL prefix for JSON requests. Defaults to
+      #                                url_base_pathname, and must start and end with '/'."
+      # DASH_PROXY - "If this application will be served to a different URL via a proxy configured
+      #              outside of Python, you can list it here as a string of the form "{input}::{output}", for
+      #              example: "http://0.0.0.0:8050::https://my.domain.com""
+      - HOST=${HOST:-0.0.0.0}
+      - PORT=${PORT:-8000}
+      - DASH_DEBUG=${DEBUG:-1} # true by default
+    ports:
+      - "8000:${PORT:-8000}"
+    # uncomment to override entry command
+    command: ["gunicorn", "--bind", ":${PORT:-8000}", "--workers", "${N_WORKERS:-1}", "--threads", "${N_THREADS:-8}", "--timeout", "0", "app:server", "--access-logfile", "-"]
+
