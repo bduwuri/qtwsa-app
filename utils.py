@@ -95,10 +95,10 @@ def handle_click(
         temporal_discrepency: Value 
             Number of months
     """
-    dates = pd.read_csv("static/data/datesnumberfrombase_TWSA1.csv",usecols=range(2))
-    allmodels_tasks = pd.read_csv(r"static/data/global_gauges_models.csv")
-    TWSA_data = pd.read_csv(r"static/data/TWSA_gauges_global.csv")
-    observations = pd.read_csv(r"static/data/global_gauges_q.csv")
+    dates = pd.read_csv("static/data/datesnumberfrombase_TWSA1.csv",usecols=range(2),low_memory=False)
+    allmodels_tasks = pd.read_csv(r"static/data/global_gauges_models.csv",low_memory=False)
+    TWSA_data = pd.read_csv(r"static/data/TWSA_gauges_global.csv",low_memory=False)
+    observations = pd.read_csv(r"static/data/global_gauges_q.csv",low_memory=False)
     
     print(f"Callback triggered with models: {model_regionalisation}, {model_spatial_feasibility}, {model_temporal_feasibility}")
     
