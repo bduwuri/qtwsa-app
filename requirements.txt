@@ -19,7 +19,7 @@ dash-html-components==2.0.0
 dash-table==5.0.0
 dash==2.1.0
 dataretrieval==0.7
-Fiona==1.8.20
+Fiona==1.8.22
 Flask-Compress==1.10.1
 Flask==2.0.2
 geopandas==0.10.2
