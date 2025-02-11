@@ -32,4 +32,4 @@ munch==2.5.0
 numpy==1.22.3 --only-binary :all:
 pandas==1.4.1 --only-binary :all:
 plotly==5.5.0
-
+waitress==2.1.2
