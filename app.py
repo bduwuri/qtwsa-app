@@ -7,7 +7,7 @@ import time
 import layout
 import callbacks
 import logging_config
-
+from waitress import serve
 start_time = time.time()
 
 logging_config.configure_logger()
@@ -39,5 +39,6 @@ if __name__ == "__main__":
     #              example: "http://0.0.0.0:8050::https://my.domain.com""
 
     # app.run_server(debug=True, dev_tools_silence_routes_logging=False)
-    app.run_server(debug=True)
+    # app.run_server(debug=True)
+    serve(app.server, host='0.0.0.0', port=10000)
 
