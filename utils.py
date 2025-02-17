@@ -98,7 +98,7 @@ def handle_click(
     dates = pd.read_csv("static/data/datesnumberfrombase_TWSA1.csv",usecols=range(2))
     allmodels_tasks = pd.read_csv(r"static/data/global_gauges_models.csv")
     TWSA_data = pd.read_csv(r"static/data/TWSA_gauges_global.csv")
-    observations = pd.read_csv(r"static/data/global_gauges_q.csv")
+    
     
     print(f"Callback triggered with models: {model_regionalisation}, {model_spatial_feasibility}, {model_temporal_feasibility}")
     
@@ -109,7 +109,7 @@ def handle_click(
         comid = allmodels_tasks[allmodels_tasks['GAGEID'].astype('int')==gageid].COMID.values[0]
 
     twsa_values = TWSA_data[TWSA_data['COMID'].astype('int')==int(comid)].iloc[0]
-    
+    del TWSA_data
     twsa = dates.copy().iloc[:(twsa_values.shape[0]-1)]
     twsa['twsa'] = twsa_values.values.flatten()[1:]
     twsa['datetime'] = pd.to_datetime(twsa['datetime']).dt.normalize()
@@ -148,8 +148,10 @@ def handle_click(
     twsa['Q_pred'] = alp_pred * np.exp(twsa[['twsa']] * bet_pred)
     
     
-    #Get in-sity observations
+    #Get in-situ observations
+    observations = pd.read_csv(r"static/data/global_gauges_q.csv")
     df_q = observations[observations['GAGEID'].astype('str')==str(gageid)]
+    del observations
     df_q['date'] = pd.to_datetime(df_q['date'])
     df_q['month'] = df_q['date'].dt.month
     df_q['year'] = df_q['date'].dt.year
